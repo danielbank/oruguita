@@ -10,7 +10,7 @@ const Board = ({ state }) => {
       );
       if (oruguitaIndex === 0)
         return <Pixel key={coord} id={coord} cell={CELL.ORUGUITA_HEAD} />;
-      if (oruguitaIndex > 1) {
+      if (oruguitaIndex > 0) {
         return <Pixel key={coord} id={coord} cell={CELL.ORUGUITA} />;
       }
       if (state.cherry[0] === i && state.cherry[1] === j)

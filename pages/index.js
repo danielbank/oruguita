@@ -4,6 +4,7 @@ import Game from "../components/Game";
 import { useKeyPress, useGameState } from "../hooks";
 
 const BOARD_SIZE = 10;
+const TICK = 100;
 
 export default function Home() {
   const [state, onTick, onTurn] = useGameState(BOARD_SIZE);
@@ -25,16 +26,28 @@ export default function Home() {
     if (rightPress) {
       onTurn("right");
     }
-  }, [upPress, downPress, leftPress, rightPress]);
+  }, [onTurn, upPress, downPress, leftPress, rightPress]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (!state.gameOver) {
+        onTick();
+      }
+    }, TICK);
+    return () => clearInterval(timer);
+  }, [onTick, state.gameOver]);
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <div>
-          <p>Current direction is {state.direction}</p>
+          <h1 className="text-4xl">
+            <span className="text-pink-400">Or</span>
+            <span className="text-green-400">uguita</span>
+          </h1>
         </div>
+        {state.gameOver && <p className="text-xl text-amber-300">Good Game</p>}
         <Game state={state} />
-        <div className="h-1 w-1 hidden bg-white bg-red-400 bg-pink-400 bg-green-400" />
       </main>
     </div>
   );
